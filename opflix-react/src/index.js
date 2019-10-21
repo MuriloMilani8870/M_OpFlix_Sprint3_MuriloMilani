@@ -15,6 +15,8 @@ import Lancamentos from "./pages/Lancamentos/Lancamentos";
 import AdminHome from "./pages/AdminHome/AdminHome";
 import AdminCadastro from "./pages/AdminCadastros/AdminCadastros";
 
+import { parseJwt } from './services/auth';
+
 const RotaPrivada = ({ component: Component }) => (
     <Route
         render={props =>
@@ -32,11 +34,11 @@ const RotaPrivada = ({ component: Component }) => (
 const RotaPrivadaAdm = ({ component: Component }) => (
     <Route
         render={props =>
-            localStorage.getItem("usuario-opflix") !== null ? (
+            localStorage.getItem("usuario-opflix") === "ADMINISTRADOR" ? (
                 <Component {...props} />
             ) : (
                     <Redirect
-                        to={{ pathname: "/login", state: { from: props.location } }}
+                        to={{ pathname: "/AdminHome", state: { from: props.location } }}
                     />
                 )
         }
@@ -51,8 +53,8 @@ const routing = (
                 <Route path="/login" component={Login} />
                 <Route path="/Cadastro" component={Cadastro} />
                 <RotaPrivada exact path="/lancamentos" component={Lancamentos} />
-                <RotaPrivada path="/AdminHome" component={AdminHome} />
-                <RotaPrivada path="/AdminCadastro" component={AdminCadastro} />
+                <RotaPrivadaAdm path="/AdminHome" component={AdminHome} />
+                <RotaPrivadaAdm path="/AdminCadastro" component={AdminCadastro} />
                 <Route component={NaoEncontrado} />
             </Switch>
         </div>

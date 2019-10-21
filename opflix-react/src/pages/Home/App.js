@@ -30,16 +30,6 @@ class App extends Component {
 
     
   }
-
-  formatarData = (element) =>{
-    let data = element.dataLancamento.split("T")[0];
-    let ano = data.split("-")[0];
-    let mes = data.split("-")[1];
-    let dia = data.split("-")[2];
-
-    return( dia + "/" + mes + "/" + ano);
-}
-  
   render(){
     return (
         <div>

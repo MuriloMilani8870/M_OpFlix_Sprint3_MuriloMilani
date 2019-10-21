@@ -4,6 +4,8 @@ import Nav from "../../components/Nav/Nav";
 import "../../assets/css/Login.css";
 import Axios from "axios";
 
+import {Link} from 'react-router-dom';
+
 
 export default class Login extends Component {
     constructor() {
@@ -30,9 +32,9 @@ export default class Login extends Component {
         let url = "http://localhost:5000/api/Login";
 
         Axios.post(url, {
-           headers: {
-               "Content-Type" : "application/json"
-           },
+            headers: {
+                "Content-Type": "application/json"
+            },
             email: this.state.email,
             senha: this.state.senha,
         })
@@ -40,7 +42,7 @@ export default class Login extends Component {
                 if (response.status === 200) {
                     console.log(response.data.token)
                     localStorage.setItem("usuario-opflix", response.data.token);
-                    this.props.history.push("/");
+                    this.props.history.push("/lancamentos");
                     console.log("ok")
                 }
             })
@@ -56,19 +58,26 @@ export default class Login extends Component {
                 </header>
                 <main className="container">
                     <div className="content">
-                        <h2>Entrar</h2>
+                        <h2>Efetue seu login</h2>
                         <form onSubmit={this.Logar} id="form_login">
                             <label>
-                                Insira seu email
+                                Email
                         <br />
                                 <input onChange={this.atualizarEmail} type="email" className="input_login" />
                             </label>
+                            <br />
                             <label>
-                                Insira sua senha
+                                Senha
                         <br />
                                 <input onChange={this.atualizarSenha} type="password" className="input_login" />
                             </label>
-                            <input type="submit" value="Entrar" />
+
+
+                            <br />
+                            <br />
+                            <Link className="link_cadastrar" to="/Cadastro">Criar conta</Link>
+                            <br/>
+                            <input type="submit" value="Entrar" className="submit_login" />
                         </form>
                     </div>
 

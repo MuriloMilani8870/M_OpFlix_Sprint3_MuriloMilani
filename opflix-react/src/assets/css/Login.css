@@ -1,0 +1,66 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    background-image: url('../img/Banner_Login.jpg');
+    background-repeat: no-repeat;
+    /* background-position: center; */
+    background-attachment: fixed;
+    background-size: auto;
+    background-position-x: -310px;
+    background-position-y: -70px;
+}
+
+.content{
+    margin-top: 300px;
+    margin-left: 500px;
+    position: absolute;
+    background-color: #000;
+    color: #fff;
+    width: 400px;
+    height: 350px;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    align-content: center; 
+    justify-content: center;
+    flex-wrap: wrap;
+    opacity: 0.9;
+    font-size: 1.4em;
+}
+
+.input_login{
+    width: 100%;
+    height: 20%;
+}
+
+.submit_login{
+    background-color:#606060;
+    border: none;
+    color: #fff;
+    padding: 8px 18px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 30px;
+    margin-bottom: 30px;
+}
+
+.submit_login:hover{
+    background-color: #27DBCD;
+    font-size: 30px;
+    width: 55%;
+}
+
+.link_cadastrar{
+    border: none;
+    color: #fff;
+    padding: 0px 0px;
+    margin-left: 300px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 13px;
+}
+
