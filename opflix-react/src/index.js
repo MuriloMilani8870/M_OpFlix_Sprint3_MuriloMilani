@@ -34,11 +34,11 @@ const RotaPrivada = ({ component: Component }) => (
 const RotaPrivadaAdm = ({ component: Component }) => (
     <Route
         render={props =>
-            localStorage.getItem("usuario-opflix") === "ADMINISTRADOR" ? (
+           parseJwt().permissao === "ADMINISTRADOR" ? (
                 <Component {...props} />
             ) : (
                     <Redirect
-                        to={{ pathname: "/AdminHome", state: { from: props.location } }}
+                        to={{ pathname: "/login", state: { from: props.location } }}
                     />
                 )
         }

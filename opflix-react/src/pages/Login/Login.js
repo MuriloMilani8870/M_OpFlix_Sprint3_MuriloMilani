@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Nav from "../../components/Nav/Nav";
 
-import "../../assets/css/Login.css";
 import Axios from "axios";
 
 import {Link} from 'react-router-dom';
