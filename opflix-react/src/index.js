@@ -6,7 +6,6 @@ import * as serviceWorker from './serviceWorker';
 import jsonwebtoken from "jsonwebtoken";
 
 
-
 import { Route, Link, BrowserRouter as Router, Switch, Redirect } from "react-router-dom";
 import NaoEncontrado from './pages/NaoEncontrado/NaoEncontrado';
 import Login from "./pages/Login/Login";

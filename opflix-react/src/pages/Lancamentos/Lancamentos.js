@@ -40,7 +40,7 @@ class Lancamentos extends Component {
                                     <li>Sinopse: {element.sinopse}</li>
                                     <li>Tempo de duração: {element.duracao}</li>
                                     <li>Categoria: {element.idCategoria}</li>
-                                    <li>Data de lançamento: {element.dataLancamento}</li>
+                                    <li>Data de lançamento: {element.dataLancamento}</li> 
                                     <li>Formato: {element.idFormato}</li>
                                 </ul>
                             </div>

@@ -76,8 +76,8 @@ class AdminHome extends Component {
                             <input type="text" placeholder="CPF" value={this.state.CPF} onChange={this.atualizarCPF.bind(this)}></input>
                             <select value={this.state.Permissao} onChange={this.atualizarPermissao.bind(this)}>
                                 <option selected>Qual a permissão do usuario?</option>
-                                <option value='1'>Administrador</option>
-                                <option value='2'>Cliente</option>
+                                <option value='ADMINISTRADOR'>Administrador</option>
+                                <option value='COMUM'>Cliente</option>
                             </select>
                             <button>Cadastrar</button>
                         </form>

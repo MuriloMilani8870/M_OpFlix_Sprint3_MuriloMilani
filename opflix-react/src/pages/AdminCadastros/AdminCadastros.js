@@ -1,8 +1,9 @@
-        import React, { Component } from "react";
+import React, { Component } from "react";
 import Nav from "../../components/Nav/Nav";
 
 import "../../assets/css/Admin.css";
-import Axios from "axios";
+import { parseJwt } from '../../services/auth.js';
+import Axios from 'axios';
 
 
 class AdminCadastros extends Component {
@@ -10,113 +11,199 @@ class AdminCadastros extends Component {
     constructor() {
         super();
         this.state = {
-            Titulo: '',
-            Sinopse: '',
-            duracao: '',
-            DataLancamento: '',
-            idCategoria: [],
-            idFormato: [],
-            Formato: '',
-            Categoria: '',
+            titulo : '',
+            sinopse : '',
+            idCategoria : '',
+            duracao : '',
+            idFormato : '',
+            dataLancamento : '',
+            token: localStorage.getItem('usuario-opflix'),
         };
     }
 
-    componentDidMount() {
-        Axios.get('http://localhost:5000/api/categorias', {
-            headers: {
-                Authorization: 'Bearer ' + localStorage.getItem('usuario-opflix')
-            }
-        })
-            .then(data => {
-                this.setState({ categoria: data.data });
-            })
-            .catch(erro => {
-                console.log(erro);
-            });
-        Axios.get('http://localhost:5000/api/Formatos', {
-            headers: {
-                Authorization: 'Bearer ' + localStorage.getItem('usuario-opflix')
-            }
-        })
-            .then(data => {
-                this.setState({ Formato: data.data });
-            })
-            .catch(erro => {
-                console.log(erro);
-            });
-    }
 
-    CadastrarCategorias = (event) => {
+    cadastrarLancamento(event) {
         event.preventDefault();
-        console.log('state', this.state);
-        fetch('http://localhost:5000/api/Lancamentos', {
+        fetch("http://localhost:5000/api/lancamentos", {
             method: "POST",
-            body: JSON.stringify({ Titulo: this.state.Titulo, Sinopse: this.state.Sinopse, Duracao: this.state.Duracao, DataLancamento: this.state.DataLancamento, Categoria: this.state.Categoria , Formato: this.state.Formato}),
+            body: JSON.stringify({ titulo: this.state.titulo, sinopse: this.state.sinopse, idCategoria: this.state.idCategoria, duracao: this.state.duracao, idFormato: this.state.idFormato, dataLancamento: this.state.dataLancamento }),
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "application/json"
             }
         })
-            .then(response => { console.log(response) })
-            .catch(erro => {
-                this.setState({ erro: "Não foi possível cadastrar" });
-                console.log(erro);
-            });
+            .then(response => response.json())
+            .catch(error => console.log(error));
     }
 
-    atualizarTitulo = (event) => {
+    atualizartitulo(event) {
         this.setState({ titulo: event.target.value })
-        console.log(this.state);
     }
-    atualizarSinopse = (event) => {
-        this.setState({ Sinopse: event.target.value })
-        console.log(this.state);
+
+    atualizarsinopse(event) {
+        this.setState({ sinopse: event.target.value })
     }
-    atualizarTempoDuracao = (event) => {
+
+    atualizaridCategoria(event) {
+        this.setState({ idCategoria: event.target.value })
+    }
+
+    atualizarduracao(event) {
         this.setState({ duracao: event.target.value })
-        console.log(this.state);
     }
-    atualizarDataLancamento = (event) => {
-        this.setState({ DataLancamento: event.target.value })
-        console.log(this.state);
+
+    atualizaridFormato(event) {
+        this.setState({ idFormato: event.target.value })
     }
-    atualizarCategoria = (event) => {
+
+    atualizardataLancamento(event) {
+        this.setState({ dataLancamento: event.target.value })
+    }
+
+    componentDidMount() {
+        this.setState({ permissao: parseJwt().permissao })
+    }
+
+
+
+    deletarCategoria = (e) => {
+        var e = document.getElementById("input_categoriasDel");
+        var idCategoriaDeletar = e.options[e.selectedIndex].value;
+
+        const url = 'http://localhost:5000/Api/Categorias/' + idCategoriaDeletar;
+
+        Axios.delete(url,
+            {
+                headers: { Authorization: "Bearer " + this.state.token }
+            })
+            .then(response => console.log(response.data))
+            .catch(error => console.log(error));
+    }
+
+    MudaCategoria = (event) => {
         this.setState({ categoria: event.target.value })
-        console.log(this.state)
-    }
-    atualizarFormato = (event) => {
-        this.setState({ formato: event.target.value })
-        console.log(event.target.value)
+        console.log(this.state.categoria)
     }
 
 
     render() {
         return (
             <div>
-                <h1>Cadastros</h1>
-                <br/>
-                <h2>Cadastrar Lançamento</h2>
-                <form onSubmit={this.CadastrarCategorias}>
-                    <input type="text" placeholder="Titulo" value={this.state.titulo} onChange={this.atualizarTitulo.bind(this)}></input>
-                    <input type="text" placeholder="Sinopse" value={this.state.Sinopse} onChange={this.atualizarSinopse.bind(this)}></input>
-                    <input type="text" placeholder="Tempo de duração" value={this.state.duracao} onChange={this.atualizarTempoDuracao.bind(this)}></input>
-                    <input type="text" placeholder="Data de lançamento" value={this.state.DataLancamento} onChange={this.atualizarDataLancamento.bind(this)} ></input>
-                    <select onChange={this.atualizarFormato.bind(this)} values={this.state.atualizarFormato}>
-                        <option selected>Tipo da mídia...</option>
-                        <option value='1'>Série</option>
-                        <option value='2'>Filme</option>
-                        <option value='3'>Anime</option>
-                        <option value='4'>Desenho</option>
-                    </select>
-                    <input type="text" placeholder="Categoria" value={this.state.Categoria} onChange={this.atualizarCategoria.bind(this)} ></input>
-                   
-                    <button>Cadastrar</button>
-                </form>
-
                 <div>
+                    <header className="cabecalhoPrincipal">
+                        <div className="container">
 
+                            <nav className="cabecalhoPrincipal-nav">
+                                {this.state.Permissao}
+                            </nav>
+                        </div>
+                    </header>
+
+                    <main className="conteudoPrincipal">
+                        <section className="conteudoPrincipal-cadastro">
+                            <h1 className="conteudoPrincipal-cadastro-titulo">Lançamentos</h1>
+                            <div className="container" id="conteudoPrincipal-lista">
+                                <table id="tabela-lista">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Lançamento</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody id="tabela-lista-corpo"></tbody>
+                                </table>
+                            </div>
+
+                            <div className="container" id="conteudoPrincipal-cadastro">
+                                <h2 className="conteudoPrincipal-cadastro-titulo">
+                                    Cadastrar Lançamento
+                        </h2>
+                                <form onSubmit={this.cadastrarLancamento}>
+                                    <div className="container">
+                                        <input
+                                            type="text"
+                                            className="className__titulo"
+                                            id="input__titulp"
+                                            placeholder="Título"
+                                            value={this.state.titulo}
+                                            onChange={this.atualizartitulo.bind(this)}
+                                        />
+                                        <input
+                                            type="text"
+                                            className="className__sinopse"
+                                            id="input__sinopse"
+                                            placeholder="sinopse"
+                                            value={this.state.sinopse}
+                                            onChange={this.atualizarsinopse.bind(this)}
+                                        />
+                                        <input
+                                            type="text"
+                                            className="className__idCategoria"
+                                            id="input__idCategoria"
+                                            placeholder="idCategoria"
+                                            value={this.state.idCategoria}
+                                            onChange={this.atualizaridCategoria.bind(this)}
+                                        />
+                                        <input
+                                            type="text"
+                                            className="className__duracao"
+                                            id="input__duracao"
+                                            placeholder="Tempo de Duração"
+                                            value={this.state.Categoria}
+                                            onChange={this.atualizarduracao.bind(this)}
+                                        />
+                                        <input
+                                            type="text"
+                                            className="className__idFormato"
+                                            id="input__idFormato"
+                                            placeholder="Filme ou Série"
+                                            value={this.state.idFormato}
+                                            onChange={this.atualizaridFormato.bind(this)}
+                                        />
+                                        <input
+                                            type="text"
+                                            className="className__dataLancamento"
+                                            id="input__dataLancamento"
+                                            placeholder="Data de Lançamento"
+                                            value={this.state.dataLancamento}
+                                            onChange={this.atualizardataLancamento.bind(this)}
+                                        />
+                                        <button
+                                            id="btn__cadastrar"
+                                            className="conteudoPrincipal-btn conteudoPrincipal-btn-cadastro"
+                                        >
+                                            Cadastrar
+                            </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </section>
+
+                        <div>
+                            <h3>Adicionar categoria</h3>
+                            <form>
+                                <input type="text" id="input_NomeCategoria" placeholder="Nome da categoria" onChange={this.MudaCategoria} />
+                                <input onClick={this.cadastrarCategoria} type="submit" value="Cadastrar" />
+                            </form>
+                        </div>
+
+                        {/* <div>
+                            <h3>Deletar categoria</h3>
+
+                            <select id="input_categoriasDel" name="categorias">
+                                <option value="0">Categoria</option>
+                                {this.state.listaCategoria.map(e => {
+                                    return (
+                                        <option value={e.idCategoria}>{e.NomeCategoria}</option>
+                                    )
+                                })}
+                            </select>
+                            <input onClick={this.deletarCategoria} type="submit" value="Deletar" />
+                        </div> */}
+
+                    </main>
                 </div>
-                 
             </div>
         )
     }
